@@ -43,7 +43,10 @@ create_header(_Context) ->
 -spec create_payload(oauth2:context()) -> binary().
 create_payload(Context) ->
     Issued = oauth2:seconds_since_epoch(0),
-    {ok, Expiry} = oauth2:get(Context, <<"expiry_time">>),
+    Expiry = case oauth2:get(Context, <<"expiry_time">>) of
+		 {ok, Value} -> Value;
+		 {error, notfound} -> oauth2:seconds_since_epoch(3600)
+	     end,
     Doc = {[{exp, Expiry}, {iat, Issued}, {name, <<"Arjen Wiersma">>}]},
     Json = jiffy:encode(Doc),
     base64url:encode(Json).
