@@ -40,6 +40,9 @@
 -export([verify_access_code/3]).
 -export([refresh_access_token/4]).
 
+-export([seconds_since_epoch/1]).
+-export([get/2]).
+
 -export_type([token/0]).
 -export_type([user/0]).
 -export_type([client/0]).
