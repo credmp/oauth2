@@ -1,4 +1,4 @@
-# OAuth2 (v0.6.0)  [![BuildStatus](https://travis-ci.org/kivra/oauth2.png?branch=master)](https://travis-ci.org/kivra/oauth2)
+# OAuth2 (v0.6.x)  [![BuildStatus](https://travis-ci.org/credmp/oauth2.png?branch=master)](https://travis-ci.org/credmp/oauth2)
 This library is designed to simplify the implementation of the server side
 of OAuth2 (http://tools.ietf.org/html/rfc6749). It provides
 **no** support for developing clients. See
@@ -7,15 +7,16 @@ accessing Oauth2 enabled services.
 
 oauth2 is released under the terms of the [MIT](http://en.wikipedia.org/wiki/MIT_License) license
 
-Current stable version: [0.6.0](https://github.com/kivra/oauth2/tree/0.6.0)
+Current stable version: [0.6.0](https://github.com/credmp/oauth2/tree/0.6.0)
 
-Current α alpha version: [0.6.x](https://github.com/kivra/oauth2)
+Current α alpha version: [0.6.x](https://github.com/credmp/oauth2)
 
 copyright 2012-2014 Kivra
+copyright 2015 Arjen Wiersma - JWT Integration
 
 ## tl;dr
 ### Examples
-Check out the [examples](https://github.com/kivra/oauth2_example).
+Check out the [examples](https://github.com/credmp/oauth2_example).
 
 ### Related projects
 Webmachine server implementation by Oauth2 contributor
@@ -33,6 +34,10 @@ There are several types of tokens:
 * *Access Token*: An access token identifies the origin of a request for a
 privileged resource.
 * *Refresh Token*: A refresh token can be used to replace an expired access token.
+
+#### JWT
+
+The library supports JWT (Currently under development)
 
 #### Expiry
 Access tokens can (optionally) be set to expire after a certain amount of time.
