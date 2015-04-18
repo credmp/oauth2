@@ -27,12 +27,17 @@
 -type scope()    :: oauth2:scope().
 -type user()     :: oauth2:user().
 -type client()   :: oauth2:client().
+-type claim()    :: oauth2:claim().
 
 %%%_* Behaviour ========================================================
 %% @doc Authenticates a combination of username and password.
 %%      Returns the resource owner identity if the credentials are valid.
 -callback authenticate_user(user(), appctx()) -> {ok, {appctx(), term()}}
                                                | {error, notfound | badpass}.
+
+%% @doc Retrieve a list of claims for this user
+-callback retrieve_user_claims(user(), appctx()) -> {ok, {appctx(), [claim()]}}
+						  | {error, notfound}.
 
 %% @doc Authenticates a client's credentials for a given scope.
 -callback authenticate_client(client(), appctx()) -> {ok, {appctx(), client()}}

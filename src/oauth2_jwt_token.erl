@@ -24,15 +24,17 @@
 
 %%%_* Exports ==========================================================
 %%%_ * API -------------------------------------------------------------
--export([generate/1]).
+-export([generate/2]).
+
+-define(BACKEND, (oauth2_config:backend())).
 
 %%%_* Code =============================================================
 %%%_ * API -------------------------------------------------------------
 %% @doc Generates a random OAuth2 token.
--spec generate(oauth2:context()) -> oauth2:token().
-generate(Context) -> 
+-spec generate(oauth2:user(), oauth2:context()) -> oauth2:token().
+generate(User, Context) -> 
     Header = create_header(Context),
-    Payload = create_payload(Context),
+    Payload = create_payload(User, Context),
     Token = create_token(Context, Header, Payload),
     Token.
 
@@ -40,14 +42,18 @@ generate(Context) ->
 create_header(_Context) ->
     base64url:encode(jiffy:encode({[{alg, <<"HS512">>},{typ, <<"JWT">>}]})).
 
--spec create_payload(oauth2:context()) -> binary().
-create_payload(Context) ->
+-spec create_payload(oauth2:user(), oauth2:context()) -> binary().
+create_payload(User, Context) ->
     Issued = oauth2:seconds_since_epoch(0),
     Expiry = case oauth2:get(Context, <<"expiry_time">>) of
 		 {ok, Value} -> Value;
-		 {error, notfound} -> oauth2:seconds_since_epoch(3600)
+		 {error, notfound} -> oauth2:seconds_since_epoch(oauth2_config:expiry_time())
 	     end,
-    Doc = {[{exp, Expiry}, {iat, Issued}, {name, <<"Arjen Wiersma">>}]},
+    Claims = case ?BACKEND:retrieve_user_claims(User, Context) of
+		 {ok, {_Ctx, Cls}} -> Cls;  
+		 {error, notfound} -> []
+	     end,
+    Doc = {[{exp, Expiry}, {iat, Issued}] ++ Claims},
     Json = jiffy:encode(Doc),
     base64url:encode(Json).
 

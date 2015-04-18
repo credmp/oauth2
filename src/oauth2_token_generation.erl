@@ -22,7 +22,7 @@
 
 %%%_* Behaviour ========================================================
 %% @doc Generates a random OAuth2 token.
--callback generate(oauth2:context()) -> oauth2:token().
+-callback generate(oauth2:user(), oauth2:context()) -> oauth2:token().
 
 %%%_* Tests ============================================================
 -ifdef(TEST).

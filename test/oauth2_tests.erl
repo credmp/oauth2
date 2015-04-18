@@ -43,6 +43,21 @@
 %%% Test cases
 %%%===================================================================
 
+sample_output_test_() ->
+    {setup,
+     fun start/0,
+     fun stop/1,
+     fun(_) ->
+	     [
+	      fun() ->
+		      ?debugMsg(
+			 oauth2_jwt_token:generate(<<"herp">>, [{<<"expiry_time">>, 1429219186}])
+			),
+		      ?_assertEqual(1,1)
+	      end			   
+	     ]
+     end}.
+
 bad_authorize_password_test_() ->
     {setup,
         fun start/0,

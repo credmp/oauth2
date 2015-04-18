@@ -30,6 +30,7 @@
 
 %%% Behavior API
 -export([authenticate_user/2]).
+-export([retrieve_user_claims/2]).
 -export([authenticate_client/2]).
 -export([get_client_identity/2]).
 -export([associate_access_code/3]).
@@ -56,6 +57,7 @@
 -define(PASSWORD,  <<"derp">>).
 -define(USCOPE,    [<<"xyz">>]).
 -define(RES_OWNER, <<"user">>).
+-define(CLAIMS,    [{<<"is_admin">>, true}, {<<"can_delete">>, true}]).
 
 -define(CID,        <<"TiaUdYODLOMyLkdaKkqlmhsl9QJ94a">>).
 -define(SECRET,     <<"fvfDMAwjlruC9rv5FsLjmyrihCcIKJL">>).
@@ -71,6 +73,12 @@
 authenticate_user({?UNAME, ?PASSWORD}, Ctx) -> {ok, {Ctx, {user, 31337}}};
 authenticate_user({?UNAME, _}, _)           -> {error, badpass};
 authenticate_user(_, _)                     -> {error, notfound}.
+
+retrieve_user_claims(?UNAME, Ctx) ->
+    {ok, {Ctx, ?CLAIMS}};
+retrieve_user_claims(_, _) ->
+    {error, notfound}.
+
 
 authenticate_client({?CID, ?SECRET}, Ctx) -> {ok, {Ctx, {client, 4711}}};
 authenticate_client({?CID, _}, _)         -> {error, badsecret};

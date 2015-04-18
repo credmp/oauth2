@@ -24,7 +24,7 @@
 
 %%%_* Exports ==========================================================
 %%%_ * API -------------------------------------------------------------
--export([generate/1]).
+-export([generate/2]).
 
 %%% Exported for testability
 -export([strong_rand_bytes_proxy/1]).
@@ -35,8 +35,8 @@
 %%%_* Code =============================================================
 %%%_ * API -------------------------------------------------------------
 %% @doc Generates a random OAuth2 token.
--spec generate(oauth2:context()) -> oauth2:token().
-generate(_Context) -> generate_fragment(?TOKEN_LENGTH).
+-spec generate(oauth2:user(), oauth2:context()) -> oauth2:token().
+generate(_User, _Context) -> generate_fragment(?TOKEN_LENGTH).
 
 %%%_* Private functions ================================================
 -spec generate_fragment(integer()) -> binary().
